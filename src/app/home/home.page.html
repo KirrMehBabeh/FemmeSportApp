@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col size="4">
+        <ion-title>
+          Tasks
+        </ion-title>
+      </ion-col>
+      <ion-col size="4">
+      <ion-button type="submit" color="secondary" (click)="addTask()">Add Task</ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button type="submit" color="secondary" (click)="signOut()">Sign Out</ion-button>
+        </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let item of list">
+      <ion-grid (click)="getNoteDetail(item)">
+        <ion-row >
+          <ion-col>
+            <img src="assets/icon/favicon.png">
+          </ion-col>
+          <ion-col>
+            <ion-label>{{item.name}}</ion-label>
+            <ion-note>{{item.dateToComplete|date:'dd MM yyyy' }}</ion-note>
+          
+          </ion-col>
+          <ion-col size="5">
+            <ion-button color="secondary" (click)="completeTask(item.start)" *ngIf="!item.completed">
+              Not Completed
+          </ion-button>
+          <ion-button color="secondary" (click)="completeTask(item.start)" *ngIf="item.completed">
+            Completed
+        </ion-button>
+            <ion-button color="secondary" (click)="delete(item.start)" *ngIf="item.completed">
+            Delete Task
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
