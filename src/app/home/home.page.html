@@ -1,20 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-row>
-      <ion-col size="4">
-        <ion-title>
-          Tasks
-        </ion-title>
-      </ion-col>
-      <ion-col size="4">
-      <ion-button type="submit" color="secondary" (click)="addTask()">Add Task</ion-button>
-      </ion-col>
-      <ion-col size="4">
-        <ion-button type="submit" color="secondary" (click)="signOut()">Sign Out</ion-button>
-        </ion-col>
-    </ion-row>
-  </ion-toolbar>
-</ion-header>
+<ion-menu-toggle>
+<ion-menu side="start" menuId="first" contentId="menuContent">
+  <ion-list>
+    <ion-item (click)="open = !open" [class.active-parent]="open" detail="false">Sports</ion-item>
+    <ion-item>Menu Item</ion-item>
+    <ion-item>Menu Item</ion-item>
+    <ion-item>Menu Item</ion-item>
+    <ion-item>Menu Item</ion-item>
+  </ion-list>
+</ion-menu>
+</ion-menu-toggle>
+  <ion-header style="height: 100px;">
+    <ion-toolbar color="tetriary">
+      <ion-buttons slot="start" style="height: 100%;">
+        <ion-menu-button style="height:50%; margin-top: 35px;">
+        </ion-menu-button>
+      </ion-buttons>
+    <ion-router-outlet id="menuContent"></ion-router-outlet>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content>
   <ion-list>

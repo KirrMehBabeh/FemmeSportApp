@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { Subscription, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Task } from '../models/task.inteface';
-import { News } from '../models/news.inteface';
+import { News } from '../models/news.interface';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 
@@ -59,7 +59,7 @@ export class DataService {
         });
       }
       else{
-        this.ncSub.unsubscribe();
+        //this.ncSub.unsubscribe();
       }
     });
   }

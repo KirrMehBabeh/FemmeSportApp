@@ -3,6 +3,8 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { CreatetaskPage } from '../createtask/createtask.page';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+
+import { MenuController } from '@ionic/angular';
 import { NoteDetailPage } from '../note-detail/note-detail.page';
 import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 
@@ -34,7 +36,21 @@ export class HomePage {
     private router: Router,
     private formBuilder: FormBuilder,
     private afAuth: AngularFireAuth,
-    private dataService:DataService) {}
+    private dataService:DataService,
+    private menu: MenuController) {}
+    openFirst() {
+      this.menu.enable(true, 'first');
+      this.menu.open('first');
+    }
+  
+    openEnd() {
+      this.menu.open('end');
+    }
+  
+    openCustom() {
+      this.menu.enable(true, 'custom');
+      this.menu.open('custom');
+    }
   ngOnInit() {
     this.afAuth.authState.subscribe( (user) => {
       if ( user ) {

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'signin', pathMatch: 'full' },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {
     path: 'signin',
@@ -15,7 +15,8 @@ const routes: Routes = [
   {
     path: 'createtask',
     loadChildren: () => import('./createtask/createtask.module').then( m => m.CreatetaskPageModule)
-  },  {
+  },
+  {
     path: 'note-detail',
     loadChildren: () => import('./note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
   },
