@@ -11,6 +11,7 @@ import { BehaviorSubject, ReplaySubject, Subscription } from 'rxjs';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
 
 import { Task } from '../../models/task.inteface';
+import { News } from '../../models/news.interface';
 import { DataService } from '../data.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
@@ -18,19 +19,22 @@ import { AngularFireAuth } from '@angular/fire/auth';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage  implements OnInit{
   taskForm:FormGroup;
   startTime:number;
   list:Array<Task> = [];
+  listNews:Array<News> = [];
   private listData: Array<Task> = new Array();
   listSub:Subscription;
   completed:boolean;
   private loadingState: ReplaySubject<boolean> = new ReplaySubject();
   private notesSub: Subscription;
   private authSub: Subscription;
-
+  private newsSub: Subscription;
+  
   constructor(    
     private data: DataService, 
+    private dataNews: DataService, 
     private modal: ModalController,
     private auth: AuthService,
     private router: Router,
@@ -38,37 +42,36 @@ export class HomePage {
     private afAuth: AngularFireAuth,
     private dataService:DataService,
     private menu: MenuController) {}
-    openFirst() {
-      this.menu.enable(true, 'first');
-      this.menu.open('first');
-    }
-  
-    openEnd() {
-      this.menu.open('end');
-    }
-  
-    openCustom() {
-      this.menu.enable(true, 'custom');
-      this.menu.open('custom');
-    }
   ngOnInit() {
-    this.afAuth.authState.subscribe( (user) => {
-      if ( user ) {
+    this.afAuth.authState.subscribe(() => {
+      this.getNews();
+      /*if ( user ) {
         this.getNotes();
       }
       else{
         this.notesSub.unsubscribe();
         //this.authSub.unsubscribe();
-      }
+      }*/
     });
     // get notes
-    this.getNotes();
-    //this.listSub = this.dataService.list$.subscribe( taskData => this.list = taskData );
+    //this.getNotes();
+    //this.getNews();
+    //this.newsSub = this.dataService.news$.subscribe( taskData => this.listNews = taskData );
+    
   }
   delete(  ) {
     
   }
-  getNotes() {
+  getNews(){
+    this.loadingState.next(true);
+    this.newsSub = this.data.news$.subscribe((data) => {
+      // store notes to display in notes
+      this.listNews = data;
+      this.loadingState.next(false);
+    });
+    console.log(JSON.stringify(this.listNews)); 
+  }
+  /*getNotes() {
     // set loading state to true to show spinner
     this.loadingState.next(true);
     this.notesSub = this.data.notes$.subscribe((data) => {
@@ -128,5 +131,5 @@ export class HomePage {
       // redirect user to signin page
       this.router.navigate(['/signin'])
     })
-  }
+  }*/
 }

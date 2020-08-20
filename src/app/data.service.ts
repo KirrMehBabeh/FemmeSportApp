@@ -13,24 +13,29 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class DataService {
   private notesCollection: AngularFirestoreCollection<Task>;
+  private newsCollection: AngularFirestoreCollection<News>;
   // notes$: Observable<Note[]>;
   public notes$ = new BehaviorSubject<Task[]>([]);
+  public articles$ = new BehaviorSubject<News[]>([]);
   private uid: string;
   private authStatus: Subscription;
   private ncSub: Subscription;
   taskList:Array<Task> = new Array();
+  newsList:Array<News> = new Array();
   list$ = new BehaviorSubject<Task[]>( this.taskList ) ;
+  news$ = new BehaviorSubject<News[]>( this.newsList ) ;
 
   constructor(private afs: AngularFirestore, private afauth: AngularFireAuth) {
     // get the user auth status
-    /* this.loadData().then((data:Array<Task>) => {
+    /*this.loadData().then((data:Array<News>) => {
       data.forEach((item) => {
-        this.taskList.push(item)
+        this.newsList.push(item)
       })
-      this.list$.next( this.taskList );
-    }) */
+      this.news$.next( this.newsList );
+    }) 
     this.list$.next( this.taskList );
-    /*this.authStatus = afauth.authState.subscribe((user) => {
+    this.news$.next( this.newsList );
+    this.authStatus = afauth.authState.subscribe((user) => {
       if (user) {
         // get the user id
         this.uid = user.uid;
@@ -47,7 +52,7 @@ export class DataService {
         this.ncSub.unsubscribe();
       }
     });*/
-    this.authStatus = afauth.authState.subscribe((user) => {
+    /*this.authStatus = afauth.authState.subscribe((user) => {
       if (user) {
         // create path
         const path = `news`;
@@ -61,6 +66,22 @@ export class DataService {
       else{
         //this.ncSub.unsubscribe();
       }
+    });*/
+    this.authStatus = afauth.authState.subscribe(() => {
+        // create path
+        const path = `news`;
+        // set the collection
+        this.newsCollection = afs.collection<News>(path);
+        // this.notes$ = this.getNotes();
+        this.news$.next( this.newsList );
+        this.ncSub = this.getNews().subscribe((data) => {
+          this.articles$.next(data);
+          data.forEach((item) => {
+            this.newsList.push(item)
+          })
+          this.news$.next( this.newsList );
+          console.log(JSON.stringify(this.articles$));
+        });
     });
   }
   /* addToList( task:Task ) {
@@ -95,7 +116,15 @@ export class DataService {
   addNote(data: Task) {
     this.notesCollection.add(data);
   }
-
+  getNews(){
+    return this.newsCollection.snapshotChanges()
+      .pipe( map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as News;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
+  }
   getNotes() {
     // this function retuns an Observable
     return this.notesCollection.snapshotChanges()

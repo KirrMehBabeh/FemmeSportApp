@@ -1,47 +1,23 @@
-<ion-menu-toggle>
-<ion-menu side="start" menuId="first" contentId="menuContent">
-  <ion-list>
-    <ion-item (click)="open = !open" [class.active-parent]="open" detail="false">Sports</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-    <ion-item>Menu Item</ion-item>
-  </ion-list>
-</ion-menu>
-</ion-menu-toggle>
-  <ion-header style="height: 100px;">
-    <ion-toolbar color="tetriary">
-      <ion-buttons slot="start" style="height: 100%;">
-        <ion-menu-button style="height:50%; margin-top: 35px;">
-        </ion-menu-button>
-      </ion-buttons>
-    <ion-router-outlet id="menuContent"></ion-router-outlet>
-    </ion-toolbar>
-  </ion-header>
+<ion-header style="height: 100px;">
+  <ion-toolbar color="tetriary">
+    <ion-buttons slot="start" style="height: 100%;">
+      <ion-menu-button style="height:50%; margin-top: 35px;">
+      </ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let item of list">
-      <ion-grid (click)="getNoteDetail(item)">
+  <ion-list lines="none">
+    <ion-item *ngFor="let item of listNews" style="margin: 5px;" >
+      <ion-grid (click)="getNoteDetail(item)" style = "background-color: aqua;">
         <ion-row >
-          <ion-col>
-            <img src="assets/icon/favicon.png">
+          <ion-col size = "2">
+            <img src="../../assets/icon/favicon.png">
           </ion-col>
-          <ion-col>
-            <ion-label>{{item.name}}</ion-label>
-            <ion-note>{{item.dateToComplete|date:'dd MM yyyy' }}</ion-note>
-          
-          </ion-col>
-          <ion-col size="5">
-            <ion-button color="secondary" (click)="completeTask(item.start)" *ngIf="!item.completed">
-              Not Completed
-          </ion-button>
-          <ion-button color="secondary" (click)="completeTask(item.start)" *ngIf="item.completed">
-            Completed
-        </ion-button>
-            <ion-button color="secondary" (click)="delete(item.start)" *ngIf="item.completed">
-            Delete Task
-            </ion-button>
+          <ion-col style="margin-left: 10px;">
+            <ion-label>{{item.title}} - {{item.author}} {{item.date|date:'dd MM yyyy'}} </ion-label>
+            <ion-text>{{item.details}}</ion-text>
           </ion-col>
         </ion-row>
       </ion-grid>

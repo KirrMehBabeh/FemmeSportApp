@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'menu', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   {
     path: 'signin',
@@ -20,6 +20,14 @@ const routes: Routes = [
     path: 'note-detail',
     loadChildren: () => import('./note-detail/note-detail.module').then( m => m.NoteDetailPageModule)
   },
+  {
+    path: 'menu',
+    loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule)
+  },  {
+    path: 'soccer',
+    loadChildren: () => import('./categories/soccer/soccer.module').then( m => m.SoccerPageModule)
+  }
+
 
 ];
 
